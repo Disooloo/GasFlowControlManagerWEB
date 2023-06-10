@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GasProcessController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,5 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/monitoring', [App\Http\Controllers\GasProcessController::class, 'index'])->name('monitoring');
+
+Route::group(['middleware' => 'auth'], function () {
+    // code
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    //Route::get('/monitoring', [App\Http\Controllers\GasProcessController::class, 'index'])->name('monitoring');
+
+    Route::resource('/monitoring', GasProcessController::class);
+    Route::group(['middleware' => ['is_admin']], function () {
+        // code
+    });
+});
+
+

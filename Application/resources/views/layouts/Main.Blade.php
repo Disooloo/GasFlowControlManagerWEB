@@ -33,6 +33,14 @@
     <script src="{{asset('fullcalendar/fc/fullcalendar.print.css')}}"></script>
     <script src="{{asset('fullcalendar/css/style.css')}}"></script>
 
+
+    <!-- Подключение библиотеки Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Подключение библиотеки Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -129,6 +137,13 @@
 <script src="{{asset('/dist/js/alertsInfo.js')}}"></script>
 @yield('custom_js')
 <script src="{{asset('/plugins/chart.js/Chart.js')}}"></script>
+
+
+<!-- Подключение библиотеки jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Подключение библиотеки Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 <script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>

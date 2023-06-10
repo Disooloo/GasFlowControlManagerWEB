@@ -73,7 +73,7 @@ $references = [
                         </p>
                     </a>
                 </li> <li class="nav-item">
-                    <a href="{{route("monitoring")}}" class="nav-link
+                    <a href="{{route("monitoring.index")}}" class="nav-link
                      {{ request()->routeIs('monitoring.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-desktop"></i>
                         <p>

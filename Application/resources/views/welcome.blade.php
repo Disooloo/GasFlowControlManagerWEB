@@ -35,10 +35,9 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">ГПА в работе</span>
-                                <span class="info-box-number">
-                  40
-                  <small><i class="fas fa-toggle-on"></i></small>
-                </span>
+                                    <span class="info-box-number">{{$GasCompressors_count}}<small>
+                                    </small>
+                                </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -68,7 +67,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">пользователей</span>
-                                <span class="info-box-number">10</span>
+                                <span class="info-box-number">{{$team_count}}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -165,8 +164,8 @@
                                         </div>
 
                                         <?php
-                                        $currentValue = 50; // Текущее значение
-                                        $maxValue = 100; // Максимальное значение
+                                        $currentValue = 2; // Текущее значение
+                                        $maxValue = 10; // Максимальное значение
                                         $progressPercentage = ($currentValue / $maxValue) * 100; // Рассчитываем процент прогресса
                                         ?>
 
