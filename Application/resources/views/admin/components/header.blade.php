@@ -45,7 +45,6 @@
             </a>
         </li>
         <li class="nav-item">
-            <!-- Добавляем кнопку выхода -->
             @if (Route::has('logout'))
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf

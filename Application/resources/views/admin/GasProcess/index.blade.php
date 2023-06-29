@@ -1,4 +1,4 @@
-@extends('layouts.Main')
+@extends('layouts.home')
 @section('title', 'мониторинг')
 
 @section('content')
@@ -32,7 +32,61 @@
 
         <!-- Main content -->
         <section class="content">
-            <a href="#" class="btn btn-outline-success m-3">Добавить</a>
+            <div class="tools d-flex">
+                <button type="button" class="btn btn-outline-success m-3" data-toggle="modal" data-target="#modal-secondary">
+                    Добавить
+                </button>
+                <form action="{{ route('update-monitoring-values') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-success m-3">Обновить значения мониторинга</button>
+                </form>
+            </div>
+            <div class="modal fade" id="modal-secondary" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-secondary">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Добавить ГПА</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="card card-primary">
+                            <!-- form start -->
+                            <form action="{{ route('monitoring.store') }}" method="post">
+                                @csrf
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="name">Наименование</label>
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Наименование">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="manufacturer">Производитель</label>
+                                        <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Производитель">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="max_pressure">Максимальная мощьность</label>
+                                        <input type="number" class="form-control" id="max_pressure" name="max_pressure" placeholder="Максимальная мощьность">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="max_flow_rate">Максимальное давление</label>
+                                        <input type="number" class="form-control" id="max_flow_rate" name="max_flow_rate" placeholder="Максимальное давление">
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Отправить</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+
             <!-- Default box -->
             <div class="card card-solid">
                 <div class="card-body pb-0">
@@ -53,6 +107,10 @@
                                                 <i class="fas fa-wifi" style="color: green"></i>
                                             @else
                                                 <i class="fas fa-wifi" style="color: red"></i>
+                                            @endif
+
+                                            @if($GasCompressor->warning)
+                                                <i class="fas fa-exclamation-triangle" style="color: red"></i>
                                             @endif
                                         </div>
                                     </div>
@@ -83,6 +141,8 @@
                                                         @if($GasCompressor->current_flow_rate > $GasCompressor->max_flow_rate)
                                                             <i class="fas fa-exclamation-triangle" style="color: red"></i>
                                                             <span style="color: red"><b>{{$GasCompressor->current_flow_rate}}</b></span>
+                                                        @elseif($GasCompressor->current_flow_rate == $GasCompressor->max_flow_rate)
+                                                            <span style="color: green"><b>{{$GasCompressor->current_flow_rate}}</b></span>
                                                         @else
                                                             <span><b>{{$GasCompressor->current_flow_rate}}</b></span>
                                                         @endif
@@ -92,6 +152,8 @@
                                                         @if($GasCompressor->current_pressure > $GasCompressor->max_pressure)
                                                             <i class="fas fa-exclamation-triangle" style="color: red"></i>
                                                             <span style="color: red"><b>{{$GasCompressor->current_pressure}}</b></span>
+                                                        @elseif($GasCompressor->current_pressure == $GasCompressor->max_pressure)
+                                                            <span style="color: green"><b>{{$GasCompressor->current_pressure}}</b></span>
                                                         @else
                                                             <span><b>{{$GasCompressor->current_pressure}}</b></span>
                                                         @endif
@@ -100,11 +162,9 @@
                                             </div>
                                             <div class="col-5 text-center">
                                                 @if(!$GasCompressor->Image)
-                                                    <img src="{{asset("/Image/23278.jpg")}}" alt="user-avatar"
-                                                         class="img-circle img-fluid">
+                                                    <img src="{{asset("/Image/23278.jpg")}}" alt="user-avatar" class="img-circle img-fluid">
                                                 @else
-                                                    <img src="{{$GasCompressor->Image}}" alt="user-avatar"
-                                                         class="img-circle img-fluid">
+                                                    <img src="{{$GasCompressor->Image}}" alt="user-avatar" class="img-circle img-fluid">
                                                 @endif
                                             </div>
                                         </div>

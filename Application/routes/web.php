@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GasProcessController;
+use App\Http\Controllers\MonitoringController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,16 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-
-Route::group(['middleware' => 'auth'], function () {
-    // code
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    //Route::get('/monitoring', [App\Http\Controllers\GasProcessController::class, 'index'])->name('monitoring');
-
     Route::resource('/monitoring', GasProcessController::class);
-    Route::group(['middleware' => ['is_admin']], function () {
-        // code
-    });
+    Route::post('/update-monitoring-values', [MonitoringController::class, 'updateMonitoringValues'])->name('update-monitoring-values');
 });
 
 
+
+
+//Route::get('/moders-user', function () {
+//    return "11";
+//})->name('moders-user');

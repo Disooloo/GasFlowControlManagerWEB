@@ -1,4 +1,4 @@
-@extends('layouts.Main')
+@extends('layouts.home')
 @section('title', "ГПА - " . $monitoring['name'] . " | " . config('app.name'))
 
 @section('content')
@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="123">Назад</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('monitoring.index')}}">Назад</a></li>
                             <li class="breadcrumb-item active">{{$monitoring['name']}}</li>
                         </ol>
                     </div>
@@ -54,7 +54,7 @@
                                         <b>Максимальная скорость</b> <a class="float-right">{{$monitoring['max_pressure']}}</a>
                                     </li>
                                 </ul>
-                                <form method="post" action="222">
+                                <form method="post" action="123">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" value="1" name="Dismissed_team">
@@ -68,23 +68,6 @@
 
                                         <input value="Удалить" type="submit" id="Successfully_dismissed_employee"
                                                class="btn btn-danger btn-block Successfully_dismissed_employee"/>
-                                    @else
-                                        <form method="post">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="col-md-12 mt-3">
-                                                <input type="date" name="Dismissed" style="display: none "
-                                                       id="Dismissed_team_data" name="Dismissed">
-                                                <input type=hidden value="0" name="Dismissed_team" id="Dismissed_team"/>
-                                                <input value="Восстановить" type="submit"
-                                                       id="Successfully_restored_employee"
-                                                       class="btn btn-primary btn-block Successfully_restored_employee"/>
-                                            </div>
-                                            <script>
-
-                                                document.getElementById('Dismissed_team_data').valueAsDate = new Date();
-                                            </script>
-                                        </form>
                                     @endif
                                 </form>
 
@@ -101,8 +84,6 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-
-
                                 <p class="text-muted">
                                    @if($monitoring['status'] == 0)
                                         Добавлен
@@ -135,8 +116,6 @@
                             </div><!-- /.card-header -->
                             <div class="card-body">
                                 <div class="tab-content">
-
-
                                     <div class="active tab-pane" id="timeline">
                                         <!-- The timeline -->
                                         <div class="timeline timeline-inverse">
@@ -212,59 +191,75 @@
 
                                     <!-- /.tab-pane -->
                                     <div class="tab-pane" id="settings">
-                                        <form class="form-horizontal" action="33">
+                                        <form class="form-horizontal" action="{{ route('monitoring.update', $monitoring->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="form-group row">
-                                                <label for="FirstName" class="col-sm-2 col-form-label">Имя</label>
+                                                <label for="name" class="col-sm-2 col-form-label">Наименование</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="FirstName"
-                                                           name="FirstName"
-                                                           placeholder="Имя" value="{2">
+                                                    <input type="text" class="form-control" id="name"
+                                                           name="name"
+                                                           placeholder="Наименование" value="{{$monitoring->name}}">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="LastName" class="col-sm-2 col-form-label">Фамилия</label>
+                                                <label for="manufacturer" class="col-sm-2 col-form-label">Производитель</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="LastName"
-                                                           placeholder="Фамилия" value="3"
-                                                           name="LastName">
+                                                    <input type="text" class="form-control" id="manufacturer"
+                                                           placeholder="Производитель" value="{{$monitoring->manufacturer}}"
+                                                           name="manufacturer">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="Patronymic" class="col-sm-2 col-form-label">Отчество</label>
+                                                <label for="max_pressure" class="col-sm-2 col-form-label">Максимальная мощьность</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="Patronymic"
-                                                           placeholder="Отчество" value="{3"
-                                                           name="Patronymic">
+                                                    <input type="text" class="form-control" id="max_pressure"
+                                                           placeholder="Максимальная мощьность" value="{{$monitoring->max_pressure}}"
+                                                           name="max_pressure">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                                <label for="max_flow_rate" class="col-sm-2 col-form-label">Максимальное давление</label>
                                                 <div class="col-sm-10">
-                                                    <input type="email" class="form-control" id="email"
-                                                           placeholder="Email" value="3" name="email">
+                                                    <input type="text" class="form-control" id="max_flow_rate"
+                                                           placeholder="Максимальное давление" value="{{$monitoring->max_pressure}}"
+                                                           name="max_flow_rate">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="Skill"
-                                                       class="col-sm-2 col-form-label">Навыки</label>
+                                                <label for="power" class="col-sm-2 col-form-label">Включение</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control" id="Skill"
-                                                              placeholder="Навыки"
-                                                              name="Skill">3</textarea>
+                                                    <select class="form-control" id="status" name="power">
+                                                        <option value="0" {{ $monitoring->power == 0 ? 'selected' : '' }}>Выключен</option>
+                                                        <option value="1" {{ $monitoring->power == 1 ? 'selected' : '' }}>Включен</option>
+                                                    </select>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="Avatar" class="col-sm-2 col-form-label">Аватарка</label>
+                                                <label for="status" class="col-sm-2 col-form-label">Статус</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="Avatar"
-                                                           placeholder="Аватарка" value="22"
-                                                           name="Avatar">
+                                                    <select class="form-control" id="status" name="status">
+                                                        <option value="0" {{ $monitoring->status == 0 ? 'selected' : '' }}>В работе</option>
+                                                        <option value="1" {{ $monitoring->status == 1 ? 'selected' : '' }}>Изменения</option>
+                                                        <option value="2" {{ $monitoring->status == 2 ? 'selected' : '' }}>Ошибка </option>
+                                                        <option value="2" {{ $monitoring->status == 3 ? 'selected' : '' }}>На списание</option>
+                                                    </select>
                                                 </div>
                                             </div>
+
+                                            <div class="form-group row">
+                                                <label for="connect" class="col-sm-2 col-form-label">Подключение</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="status" name="connect">
+                                                        <option value="0" {{ $monitoring->status == 0 ? 'connect' : '' }}>Нет подлючения</option>
+                                                        <option value="1" {{ $monitoring->status == 1 ? 'connect' : '' }}>Подключен</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
 
                                             <div class="form-group row">
                                                 <div class="form-group row">

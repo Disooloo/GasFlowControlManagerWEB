@@ -1,24 +1,3 @@
-<?php
-$references = [
-    "Dashboard" => "Приборная панель",
-    "Monitoring" => "Мониторинг",
-    "company" => "Компании",
-    "branches" => "Филиалы",
-    "location" => "Местоположение",
-    "status" => "Статусы",
-    "workTime" => "График работы сотрудников",
-    "organizations" => "Организации",
-    "view_object" => "Виды обьектов",
-    "type_object" => "Типы обьектов",
-    "type_work" => "Типы работ",
-    'admins' => "Пользователи",
-    'mObject' => "Обьекты",
-    'repair' => 'Ремонты'
-]
-
-?>
-
-
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -65,19 +44,17 @@ $references = [
                      with font-awesome or any other icon font library -->
                 <li class="nav-header">Основные</li>
                 <li class="nav-item">
-                    <a href="{{route("home")}}" class="nav-link
-                    {{ request()->routeIs('home.index') ? 'active' : '' }}">
+                    <a href="/" class="nav-link">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <p>
-                            {{$references['Dashboard']}}
+                            Приборная панель
                         </p>
                     </a>
                 </li> <li class="nav-item">
-                    <a href="{{route("monitoring.index")}}" class="nav-link
-                     {{ request()->routeIs('monitoring.index') ? 'active' : '' }}">
+                    <a href="/monitoring"  class="nav-link">
                         <i class="nav-icon fas fa-desktop"></i>
                         <p>
-                            {{$references['Monitoring']}}
+                            Мониторинг
                         </p>
                     </a>
                 </li>

@@ -12,7 +12,7 @@ class GasProcessController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -41,7 +41,29 @@ class GasProcessController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $monitoring = new GasCompressors();
+        $monitoring->name = $request->input('name');
+        $monitoring->manufacturer = $request->input('manufacturer');
+        $monitoring->max_pressure = $request->input('max_pressure');
+        $monitoring->max_flow_rate = $request->input('max_flow_rate');
+        $monitoring->current_flow_rate = 0;
+        $monitoring->current_pressure = 0;
+
+        $efficiency = ($monitoring->current_flow_rate / $monitoring->max_flow_rate) * ($monitoring->current_pressure / $monitoring->max_pressure) * 100;
+        $monitoring->efficiency = $efficiency;
+
+        $monitoring->save();
+
+        $statesLogs = new StatesLogs();
+        $statesLogs->gas_compressor_id = $monitoring->id;
+        $statesLogs->state_name = $monitoring->name;
+        $statesLogs->current_power = $monitoring->current_flow_rate;
+        $statesLogs->current_pressure = $monitoring->current_pressure;
+        $statesLogs->Based = "Добавлен";
+
+        $statesLogs->save();
+
+        return redirect('/monitoring');
     }
 
     /**
@@ -78,9 +100,27 @@ class GasProcessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, GasCompressors $monitoring)
     {
-        //
+        $monitoring->name = $request->input('name');
+        $monitoring->manufacturer = $request->input('manufacturer');
+        $monitoring->max_pressure = $request->input('max_pressure');
+        $monitoring->max_flow_rate = $request->input('max_flow_rate');
+        $monitoring->power = $request->input('power');
+        $monitoring->status = $request->input('status');
+        $monitoring->connect = $request->input('connect');
+        $monitoring->save();
+
+        // Запись в StatusLog
+        $statusLog = new StatesLogs();
+        $statusLog->gas_compressor_id = $monitoring->id;
+        $statusLog->state_name = $monitoring->name;
+        $statusLog->current_power = $monitoring->current_flow_rate;
+        $statusLog->current_pressure = $monitoring->current_pressure;
+        $statusLog->Based = "Редактирование";
+        $statusLog->save();
+
+        return redirect('/monitoring');
     }
 
     /**

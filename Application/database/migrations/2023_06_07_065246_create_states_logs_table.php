@@ -17,8 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('gas_compressor_id');
             $table->string('state_name', 255);
-            $table->dateTime('start_date_time');
-            $table->dateTime('end_date_time');
             $table->float('current_power');
             $table->float('current_pressure');
             $table->string('Based');

@@ -1,4 +1,4 @@
-@extends('layouts.Main')
+@extends('layouts.home')
 @section('title', "Главная")
 
 @section('content')
@@ -10,12 +10,6 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0">Приборная панель</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard v2</li>
-                        </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -34,9 +28,9 @@
                             </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">ГПА в работе</span>
-                                    <span class="info-box-number">{{$GasCompressors_count}}<small>
-                                    </small>
+                                <span class="info-box-text">Всего ГПА</span>
+                                    <span class="info-box-number">
+                                        <a href="{{route('monitoring.index')}}">{{$GasCompressors_count}}</a>
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -50,7 +44,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Сбои</span>
-                                <span class="info-box-number">10</span>
+                                <span class="info-box-number">{{$GasCompressors_count_errors}}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -94,35 +88,14 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title">Monthly Recap Report</h5>
 
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fas fa-wrench"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <a href="#" class="dropdown-item">Action</a>
-                                            <a href="#" class="dropdown-item">Another action</a>
-                                            <a href="#" class="dropdown-item">Something else here</a>
-                                            <a class="dropdown-divider"></a>
-                                            <a href="#" class="dropdown-item">Separated link</a>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
+
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-8">
                                         <p class="text-center">
-                                            <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
                                         </p>
 
                                         <div class="chart">
@@ -134,11 +107,11 @@
                                     <!-- /.col -->
                                     <div class="col-md-4">
                                         <p class="text-center">
-                                            <strong>Goal Completion</strong>
+                                            <strong>Достижение цели</strong>
                                         </p>
 
                                         <div class="progress-group">
-                                            Add Products to Cart
+                                            Задач активно
                                             <span class="float-right"><b>160</b>/200</span>
                                             <div class="progress progress-sm">
                                                 <div class="progress-bar bg-primary" style="width: 80%"></div>
@@ -147,33 +120,38 @@
                                         <!-- /.progress-group -->
 
                                         <div class="progress-group">
-                                            Complete Purchase
-                                            <span class="float-right"><b>310</b>/400</span>
+                                            В сбои
+                                            <span class="float-right"><b>{{$GasCompressors_count_errors}}</b>/{{$GasCompressors_count}}</span>
                                             <div class="progress progress-sm">
-                                                <div class="progress-bar bg-danger" style="width: 75%"></div>
-                                            </div>
+                                                @if ($GasCompressors_count_errors > 0)
+                                                    <div class="progress-bar bg-danger" style="width: {{ ($GasCompressors_count_errors / $GasCompressors_count ) * 100 }}%"></div>
+                                                @else
+                                                    <div class="progress-bar bg-danger" style="width: 0%"></div>
+                                                @endif                                            </div>
                                         </div>
 
                                         <!-- /.progress-group -->
                                         <div class="progress-group">
-                                            <span class="progress-text">Visit Premium Page</span>
-                                            <span class="float-right"><b>480</b>/800</span>
+                                            <span class="progress-text">Модерация пользователей</span>
+                                            <span class="float-right"><b>{{$team_count_Moder}}</b>/{{$team_count}}</span>
                                             <div class="progress progress-sm">
-                                                <div class="progress-bar bg-success" style="width: 60%"></div>
+                                                @if ($team_count > 0 && $team_count_Moder > 0)
+                                                    <div class="progress-bar bg-success" style="width: {{ ($team_count_Moder / $team_count) * 100 }}%"></div>
+                                                @else
+                                                    <div class="progress-bar bg-success" style="width: 0%"></div>
+                                                @endif
                                             </div>
                                         </div>
 
-                                        <?php
-                                        $currentValue = 2; // Текущее значение
-                                        $maxValue = 10; // Максимальное значение
-                                        $progressPercentage = ($currentValue / $maxValue) * 100; // Рассчитываем процент прогресса
-                                        ?>
-
                                         <div class="progress-group">
                                             ГПА а работе
-                                            <span class="float-right"><b><?php echo $currentValue; ?></b>/<?php echo $maxValue; ?></span>
+                                            <span class="float-right"><b>{{$GasCompressors_count_go}}</b>/{{$GasCompressors_count}}</span>
                                             <div class="progress progress-sm">
-                                                <div class="progress-bar bg-warning" style="width: <?php echo $progressPercentage; ?>%"></div>
+                                                @if ($GasCompressors_count > 0 && $GasCompressors_count_go > 0)
+                                                    <div class="progress-bar bg-warning" style="width: {{ ($GasCompressors_count_go / $GasCompressors_count) * 100 }}%"></div>
+                                                @else
+                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>
+                                                @endif
                                             </div>
                                         </div>
                                         <!-- /.progress-group -->
@@ -261,7 +239,6 @@
                                                     <img src="{{$team->Image}}" alt="User Image">
                                                     <a class="users-list-name" href="#">{{$team->name}}</a>
                                                     <span class="users-list-date">{{$team->updated_at}}</span>
-
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -283,7 +260,6 @@
                         <div class="card">
                             <div class="card-header border-transparent">
                                 <h3 class="card-title">Логи АГП</h3>
-
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -296,28 +272,33 @@
                             <!-- /.card-header -->
                             <div class="card-body p-0">
                                 <div class="table-responsive">
-                                    <table class="table m-0">
+
+                                    <table class="table table-hover text-nowrap">
                                         <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>gas_compressor_id</th>
-                                            <th>start_date_time</th>
-                                            <th>end_date_time</th>
-                                            <th>current_power</th>
-                                            <th>current_pressure</th>
-                                            <th>Based</th>
-                                            <th>updated_at</th>
+                                            <th>id ГПА</th>
+                                            <th>Наименование</th>
+                                            <th>Текущая мощьность</th>
+                                            <th>Текущее давление</th>
+                                            <th>Основание</th>
+                                            <th>Дата создания</th>
+                                            <th>Дата Обновления</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                            <td>Call of Duty IV</td>
-                                            <td><span class="badge badge-success">Shipped</span></td>
-                                            <td>
-                                                <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                            </td>
-                                        </tr>
+                                            @foreach($states_logs as $states_log)
+                                                <tr>
+                                                    <td>{{$states_log->id}}</td>
+                                                    <td><a href="{{ route('monitoring.show', $states_log->gas_compressor_id) }}">{{ $states_log->gas_compressor_id }}</a></td>
+                                                    <td>{{$states_log->state_name}}</td>
+                                                    <td>{{$states_log->current_power}}</td>
+                                                    <td>{{$states_log->current_pressure}}</td>
+                                                    <td>{{$states_log->Based}}</td>
+                                                    <td>{{$states_log->created_at}}</td>
+                                                    <td>{{$states_log->updated_at}}</td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -342,9 +323,7 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+
                                 </div>
                             </div>
                             <!-- /.card-header -->
@@ -355,52 +334,10 @@
                                             <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
                                         </div>
                                         <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">Samsung TV
-                                                <span class="badge badge-warning float-right">$1800</span></a>
+                                            <a href="javascript:void(0)" class="product-title">Task1
+                                                <span class="badge badge-warning float-right">Важно</span></a>
                                             <span class="product-description">
-                        Samsung 32" 1080p 60Hz LED Smart HDTV.
-                      </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">Bicycle
-                                                <span class="badge badge-info float-right">$700</span></a>
-                                            <span class="product-description">
-                        26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                      </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">
-                                                Xbox One <span class="badge badge-danger float-right">
-                        $350
-                      </span>
-                                            </a>
-                                            <span class="product-description">
-                        Xbox One Console Bundle with Halo Master Chief Collection.
-                      </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">PlayStation 4
-                                                <span class="badge badge-success float-right">$399</span></a>
-                                            <span class="product-description">
-                        PlayStation 4 500GB Console (PS4)
+                        description
                       </span>
                                         </div>
                                     </li>

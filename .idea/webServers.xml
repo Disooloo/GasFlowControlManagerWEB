@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3218b08e-7157-4eb6-bbca-4c82d636cc69" name="a0830431" url="http://hipevalq.beget.tech">
+        <fileTransfer rootFolder="/hipevalq.beget.tech/public_html" host="hipevalq.beget.tech" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="0c17774f-193a-4b81-84f3-85a8562ce932" name="hipevalq.beget.tech" url="http://hipevalq.beget.tech">
+        <fileTransfer rootFolder="/hipevalq.beget.tech/public_html" host="hipevalq.beget.tech" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
