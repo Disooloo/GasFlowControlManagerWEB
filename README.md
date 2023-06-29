@@ -4,6 +4,9 @@
 
 ![Пример работы приложения](https://github.com/Disooloo/GasFlowControlManagerWEB/blob/main/other/2023-06-29-13-50-30.gif?raw=true)
 
+![image](https://github.com/Disooloo/GasFlowControlManagerWEB/assets/44940699/8b842464-70cb-471d-b9ec-63e0b99b05dd)
+
+
 ## Используемые технологии
 Проект GasFlowControlManagerWEB использует следующие технологии:
 
